@@ -25,25 +25,10 @@ func createFeedback(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRe
 		return clientError(http.StatusNotAcceptable)
 	}
 	sessionID := strings.TrimPrefix(req.Path, "/feedback/")
-	// id := req.PathParameters["id"]
-	// fmt.Print("this is my UUID? ", id)
-	// fmt.Printf(id)
-	// if !r.MatchString(id) {
-	// 	return clientError(http.StatusBadRequest)
-	// }
-
-	// sid, err := getSessionItem(id)
-	// if err != nil {
-	// 	return serverError(err)
-	// }
-	// if sid == nil {
-	// 	return clientError(http.StatusNotFound)
-	// }
 
 	fbid := uuid.NewV4().String()
 
 	feedback := &feedback{
-		// ID:         id,
 		FeedbackID: fbid,
 		Title:      "",
 		Content:    "",
@@ -51,7 +36,6 @@ func createFeedback(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRe
 
 	err := json.Unmarshal([]byte(req.Body), feedback)
 	if err != nil {
-		// return clientError(http.StatusUnprocessableEntity)
 		log.Print(err)
 	}
 
@@ -66,7 +50,6 @@ func createFeedback(req events.APIGatewayProxyRequest) (events.APIGatewayProxyRe
 
 	return events.APIGatewayProxyResponse{
 		StatusCode: 201,
-		// Headers:    map[string]string{"Location": fmt.Sprintf("/feedback/{id=%s}/review", fb.ID)},
 	}, nil
 }
 

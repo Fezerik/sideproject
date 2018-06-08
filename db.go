@@ -17,13 +17,13 @@ func createFeedbackItem(feedback *feedback, sessionID string) error {
 
 	input := &dynamodb.UpdateItemInput{
 
-		TableName: aws.String("sidekick-dev-dfezer"),
+		TableName: aws.String("ddb"),
 		Key: map[string]*dynamodb.AttributeValue{
 			"ID": {
 				S: aws.String(sessionID),
 			},
 		},
-		// UpdateExpression: aws.String("set Title = :title, Content = :content, FeedbackID = :feedbackid"),
+
 		UpdateExpression: aws.String("SET feedbacks = list_append(if_not_exists(feedbacks, :empty_list), :feedback)"),
 
 		ExpressionAttributeValues: map[string]*dynamodb.AttributeValue{
